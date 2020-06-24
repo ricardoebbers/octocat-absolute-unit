@@ -14,7 +14,7 @@ class MeasureController(
         private val scrapingService: ScrapingService
 ) {
     @PostMapping
-    fun measureRepository(@RequestBody query: MeasureQuery): Report {
+    fun measure(@RequestBody query: MeasureQuery): Report {
         return scrapingService.fetchOrScrape(query.repositoryUrl)
     }
 }
