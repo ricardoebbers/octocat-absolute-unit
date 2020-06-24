@@ -11,12 +11,17 @@ data class Folder(
 
     fun extractChildrenFromData() {
         val doc = Jsoup.parse(data)
-        val elements = doc.select("table.files td.content a")
-        children = elements.map { createChildFromUri(it.attr("href")) }.toList()
+        val elements = doc.select(".js-details-container .Box-row .js-navigation-open")
+        children = elements.filter { it.hasAttr("rel").not() }
+                .mapNotNull { createChildFromUri(it.attr("href")) }.toList()
     }
 
-    private fun createChildFromUri(uri: String): Scrappable {
-        return if (uri.contains("tree")) Folder(uri) else File(uri)
+    private fun createChildFromUri(uri: String): Scrappable? {
+        return when {
+            uri.contains("tree") -> Folder(uri)
+            uri.contains("blob") -> File(uri)
+            else -> null
+        }
     }
 
 }
