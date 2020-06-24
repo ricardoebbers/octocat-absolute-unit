@@ -11,6 +11,7 @@ data class Measurement(
         @GeneratedValue
         @JsonIgnore
         private val id: Long? = null,
+        @JsonIgnore
         val extension: String,
         var lines: Int = 0,
         var sloc: Int = 0,
